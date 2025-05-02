@@ -27,13 +27,6 @@ To install Motiono, simply run:
 ```bash
 npm install motiono
 ```
-
-You also need to have `gsap` installed in your project since Motiono leverages GSAP for animations:
-
-```bash
-npm install gsap
-```
-
 ---
 
 ## Basic Usage

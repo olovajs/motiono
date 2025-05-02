@@ -213,9 +213,7 @@ When using animations in a React app, it’s important to be mindful of the foll
 
 ## Troubleshooting
 
----
  **Animation not working**: Ensure that the element has the correct reference and that you’ve passed the correct animation properties (`from`, `to`, etc.).
 - **Unexpected behavior with `stagger` or `yoyo`**: Double-check your configuration, as conflicting animation properties might cause unexpected results.
 - **Performance issues with many animations**: Optimize your animations by reducing the number of active animations or using `gsap.timeline` for better control.
 
----

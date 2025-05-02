@@ -152,8 +152,7 @@ Motiono integrates GSAP by default. You do not need to import GSAP separately un
 ### Example with GSAP:
 
 ```js
-import { useGSAP } from "motiono";
-import { gsap } from "motiono";
+import { useGSAP  , gsap } from "motiono";
 
 function App() {
   const ref = useRef(null);
@@ -185,7 +184,7 @@ tl.to(".box", { y: 100, duration: 1 });
 Motiono supports custom easing functions through GSAP:
 
 ```js
-import { gsap } from "gsap";
+import { gsap } from "motiono";
 
 gsap.to(".box", {
   x: 500,

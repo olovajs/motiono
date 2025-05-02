@@ -1,8 +1,8 @@
 # Motiono - A React Animation Library Powered by GSAP
 
-**Motiono** is a React library that enables smooth, interactive animations using the power of **GSAP (GreenSock Animation Platform)**. It provides an easy-to-use API for animating React components, offering built-in support for common HTML tags and customizations for a seamless animation experience. Motiono leverages GSAP’s robust capabilities, making it a great choice for handling complex animations in React apps.
+**Motiono** is a React library that simplifies creating smooth, interactive animations by leveraging **GSAP (GreenSock Animation Platform)**. It provides a clean, declarative API for animating React components, giving developers the flexibility to animate built-in HTML elements and custom React components. With built-in GSAP integration, Motiono makes creating sophisticated animations easy without any external setup.
 
-This documentation will guide you through the installation, usage, API, and key features of Motiono.
+This documentation will guide you through the installation, basic usage, available tags, API references, advanced usage, performance tips, and troubleshooting.
 
 ---
 
@@ -22,18 +22,19 @@ This documentation will guide you through the installation, usage, API, and key 
 
 ## Installation
 
-To install Motiono, simply run:
+You can install **Motiono** via npm:
 
 ```bash
 npm install motiono
 ```
+
 ---
 
 ## Basic Usage
 
-Once installed, you can import `motiono` and use it to animate any of the built-in tags. Below is an example of animating a `h1` element with a `from` and `to` animation configuration:
+Motiono makes it simple to animate HTML elements. Once installed, import `motiono` into your React components and animate tags like you would with any standard HTML element.
 
-### Example:
+### Example: Animate a Heading (`h1`)
 
 ```js
 import { motiono } from "motiono";
@@ -57,20 +58,20 @@ export default function App() {
           fontWeight: "bold",
         }}
       >
-        Hello world
+        Hello World
       </motiono.h1>
     </>
   );
 }
 ```
 
-In this example, the `h1` element will animate from the properties defined in `from` to the properties defined in `to` using the specified transition parameters.
+In this example, the `h1` element will animate from the defined `from` properties (small scale, offscreen, rotated) to the `to` properties (full scale, centered, no rotation). You can customize the animation using `transition` properties such as easing, stiffness, and damping.
 
 ---
 
 ## Available Tags
 
-Motiono provides an easy way to animate a wide variety of HTML elements by re-exporting built-in React components with animation capabilities. Below are the available tags:
+Motiono supports a wide range of HTML tags that you can animate out of the box. These include:
 
 - **Text Tags**: `motiono.h1`, `motiono.h2`, `motiono.h3`, `motiono.h4`, `motiono.h5`, `motiono.h6`, `motiono.p`, `motiono.span`, `motiono.a`
 - **Structural Tags**: `motiono.div`, `motiono.section`, `motiono.article`, `motiono.header`, `motiono.footer`, `motiono.nav`, `motiono.main`, `motiono.aside`
@@ -85,13 +86,13 @@ Motiono provides an easy way to animate a wide variety of HTML elements by re-ex
 
 ### motiono Component
 
-The `motiono` component is the core of this library and allows you to animate various HTML elements by passing animation properties.
+The `motiono` component is the main entry point for creating animations in Motiono. It provides a simple and declarative interface for animating various HTML elements.
 
 #### Props
 
 | Prop              | Type                                  | Description                                                                                                                                   |
 |-------------------|---------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------|
-| `tag`             | `string` (default: `div`)             | HTML tag for the element to animate (e.g., `div`, `span`, `h1`, `section`, etc.).                                                              |
+| `tag`             | `string` (default: `div`)             | The HTML tag to animate (e.g., `div`, `span`, `h1`).                                                                                          |
 | `from`            | `Object`                              | The starting properties for the animation (e.g., `{ scale: 0.5, y: -200, opacity: 0 }`).                                                        |
 | `to`              | `Object`                              | The ending properties for the animation (e.g., `{ scale: 1, y: 0, opacity: 1 }`).                                                              |
 | `fromTo`          | `Array` (`[from, to]`)                | An array of two objects, defining both starting and ending animation properties.                                                               |
@@ -128,7 +129,7 @@ The `motiono` component is the core of this library and allows you to animate va
 
 ### motiono.setGsapDefaults
 
-This function allows you to set **global GSAP animation defaults** for all animations created via Motiono.
+This function allows you to set global GSAP animation defaults for all animations created via Motiono. You can apply settings like default easing and duration across your app without specifying them in every animation.
 
 #### Usage:
 
@@ -139,26 +140,20 @@ motiono.setGsapDefaults({
 });
 ```
 
-This will apply the default easing and duration to all animations unless overridden by individual component settings.
-
 ---
 
 ## GSAP Integration
 
-Motiono re-exports **GSAP** and **useGSAP** hooks for users who need more advanced control over animations beyond the basic properties. You can access them as follows:
+Motiono integrates GSAP by default. You do not need to import GSAP separately unless you want more advanced control. This gives you the ability to use GSAP's full power when needed, but you can still create smooth animations using the declarative syntax.
 
-```js
-import { gsap, useGSAP } from "motiono";
-```
-
-- **gsap**: Direct access to GSAP for more advanced animations.
+- **GSAP**: Directly accessible for advanced animation logic.
 - **useGSAP**: A custom hook to apply GSAP animations directly within your React components.
 
 ### Example with GSAP:
 
 ```js
 import { useGSAP } from "motiono";
-import { gsap } from "gsap";
+import { gsap } from "motiono";
 
 function App() {
   const ref = useRef(null);
@@ -177,7 +172,7 @@ function App() {
 
 ### Animation Chaining
 
-You can chain animations together using GSAP's `timeline`:
+You can chain animations using GSAP's `timeline` API for more complex sequences:
 
 ```js
 const tl = gsap.timeline();
@@ -187,7 +182,7 @@ tl.to(".box", { y: 100, duration: 1 });
 
 ### Custom Easing Functions
 
-You can create custom easing effects:
+Motiono supports custom easing functions through GSAP:
 
 ```js
 import { gsap } from "gsap";
@@ -203,17 +198,21 @@ gsap.to(".box", {
 
 ## Performance Considerations
 
-When using animations in a React app, it’s important to be mindful of the following to maintain good performance:
+To ensure good performance when using animations in a React app, keep the following points in mind:
 
-- **Debounce unnecessary re-renders**: Motiono uses `useMemo` and `useCallback` to optimize rerendering when animation props change.
-- **Avoid too many simultaneous animations**: If you animate too many elements simultaneously, it may affect the browser’s performance.
-- **Consider using `requestAnimationFrame` for smooth animation rendering**.
+- **Debounce re-renders**: Motiono uses hooks like `useMemo` and `useCallback` to minimize unnecessary renders.
+- **Limit simultaneous animations**: Excessive simultaneous animations can degrade performance, so optimize accordingly.
+- **Use `requestAnimationFrame` for smooth rendering**: This is automatically handled by GSAP, but make sure you're not overwriting it in your animations.
 
 ---
 
 ## Troubleshooting
 
- **Animation not working**: Ensure that the element has the correct reference and that you’ve passed the correct animation properties (`from`, `to`, etc.).
-- **Unexpected behavior with `stagger` or `yoyo`**: Double-check your configuration, as conflicting animation properties might cause unexpected results.
-- **Performance issues with many animations**: Optimize your animations by reducing the number of active animations or using `gsap.timeline` for better control.
+- **Animation not triggering**: Double-check the element's
+ reference and ensure `from` and `to` properties are properly defined.
+- **Unexpected results with `stagger` or `yoyo`**: Inspect your configuration for conflicting animation properties.
+- **Performance issues**: Optimize animations by reducing the number of concurrent active animations or using `gsap.timeline()` for grouped animations.
 
+---
+
+Motiono simplifies animation workflows in React by providing a default GSAP integration and an intuitive API for developers to create beautiful, performance-optimized animations with ease.
